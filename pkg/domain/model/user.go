@@ -1,6 +1,9 @@
 package model
 
-import "unicode/utf8"
+import (
+	"net/mail"
+	"unicode/utf8"
+)
 
 const (
 	nameLengthMax = 255
@@ -25,9 +28,10 @@ func NewUser(
 	}
 
 	// メールアドレスバリデーション
-	// if _, err := mail.ParseAddress(email); err != nil {
-	// 	return nil, errDomain.NewError("メールアドレスが不正です。")
-	// }
+	if _, err := mail.ParseAddress(email); err != nil {
+		//TODO エラー処理実装
+		// 	return nil, errDomain.NewError("メールアドレスが不正です。")
+	}
 
 	return &User{
 		id:    id,
