@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/shou1027/golangJwt/pkg/domain/model"
+	"github.com/shou1027/cookmaBackend/pkg/domain/model"
 )
 
 type Repository interface {
