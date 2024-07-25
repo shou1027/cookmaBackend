@@ -43,3 +43,18 @@ func NewUser(
 		email: email,
 	}, nil
 }
+
+// ユーザーIDを返却
+func (u User) GetId() string {
+	return u.name
+}
+
+// ユーザー名を返却
+func (u User) GetName() string {
+	return u.name
+}
+
+// メールアドレスを返却
+func (u User) GetEmail() string {
+	return u.email
+}
