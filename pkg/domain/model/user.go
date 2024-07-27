@@ -38,15 +38,16 @@ func NewUser(
 	//TODO バリデーションが必要か検討
 
 	return &User{
-		id:    id,
-		name:  name,
-		email: email,
+		id:       id,
+		name:     name,
+		email:    email,
+		password: password,
 	}, nil
 }
 
 // ユーザーIDを返却
-func (u User) GetId() string {
-	return u.name
+func (u User) GetId() int64 {
+	return u.id
 }
 
 // ユーザー名を返却
@@ -57,4 +58,9 @@ func (u User) GetName() string {
 // メールアドレスを返却
 func (u User) GetEmail() string {
 	return u.email
+}
+
+// パスワードを返却
+func (u User) GetPassword() string {
+	return u.password
 }
