@@ -8,7 +8,7 @@ import (
 	"github.com/shou1027/cookmaBackend/pkg/domain/model"
 	"github.com/shou1027/cookmaBackend/pkg/domain/repository"
 	"github.com/shou1027/cookmaBackend/pkg/myerror"
-	"golang.org/x/tools/godoc/util"
+	"github.com/shou1027/cookmaBackend/pkg/util"
 )
 
 type UseCase interface {
@@ -47,7 +47,7 @@ func (uc *useCase) Signup(c context.Context, username string, email string, pass
 		return nil, &myerror.InternalServerError{Err: err}
 	}
 
-	u, err := model.NewUser(0, username, email, hashedPassword)
+	u, err := model.NewUser(username, email, hashedPassword)
 	if err != nil {
 		return nil, &myerror.BadRequestError{Err: err}
 	}

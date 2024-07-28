@@ -18,7 +18,34 @@ type User struct {
 	password string
 }
 
+func Reconstruct(
+	id int64,
+	name string,
+	email string,
+	password string,
+) (*User, error) {
+	return newUser(
+		id,
+		name,
+		email,
+		password,
+	)
+}
+
 func NewUser(
+	name string,
+	email string,
+	password string,
+) (*User, error) {
+	return newUser(
+		0,
+		name,
+		email,
+		password,
+	)
+}
+
+func newUser(
 	id int64,
 	name string,
 	email string,
