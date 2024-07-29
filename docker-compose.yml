@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15.1-alpine
+    # container_name: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=cookma
+    ports:
+      - 5432:5432
