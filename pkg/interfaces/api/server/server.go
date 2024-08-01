@@ -5,8 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shou1027/cookmaBackend/pkg/infrastructure"
-	"github.com/shou1027/cookmaBackend/pkg/infrastructure/repositoryimpl"
+
+	"github.com/shou1027/cookmaBackend/pkg/infrastructure/postgresql"
+	"github.com/shou1027/cookmaBackend/pkg/infrastructure/postgresql/repositoryimpl"
 	"github.com/shou1027/cookmaBackend/pkg/interfaces/api/handler"
 	"github.com/shou1027/cookmaBackend/pkg/usecase"
 )
@@ -20,7 +21,7 @@ func Ping(c *gin.Context) {
 // サーバー起動処理
 func Serve(addr string) {
 	//依存性の注入
-	userRepoImpl := repositoryimpl.NewRepositoryImpl(infrastructure.Conn)
+	userRepoImpl := repositoryimpl.NewRepositoryImpl(postgresql.Conn)
 	userUseCase := usecase.NewUseCase(userRepoImpl)
 	userHandler := handler.NewHandler(userUseCase)
 

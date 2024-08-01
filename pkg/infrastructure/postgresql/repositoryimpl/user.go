@@ -3,9 +3,11 @@ package repositoryimpl
 import (
 	"context"
 	"database/sql"
+	"log"
 
-	"github.com/shou1027/golangJwt/pkg/domain/model"
-	"github.com/shou1027/golangJwt/pkg/domain/repository"
+	"github.com/shou1027/cookmaBackend/pkg/domain/model"
+	"github.com/shou1027/cookmaBackend/pkg/domain/repository"
+	"github.com/shou1027/cookmaBackend/pkg/infrastructure/postgresql"
 )
 
 type DBTX interface {
@@ -25,23 +27,43 @@ func NewRepositoryImpl(db DBTX) repository.Repository {
 
 func (ri *repositoryImpl) CreateUser(ctx context.Context, user *model.User) (*model.User, error) {
 	var lastInsertId int
-	query := "INSERT INTO users(username, email, password) VALUES ($1, $2, $3) returning id"
-	err := ri.db.QueryRowContext(ctx, query, user.Username, user.Email, user.Password).Scan(&lastInsertId)
+	query := "INSERT INTO users(name, email, password, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW()) returning id"
+	err := ri.db.QueryRowContext(ctx, query, user.GetName(), user.GetEmail(), user.GetPassword()).Scan(&lastInsertId)
 	if err != nil {
-		return &model.User{}, err
+		return nil, err
+	}
+	log.Println(user)
+
+	user, err = model.Reconstruct(
+		int64(lastInsertId),
+		user.GetName(),
+		user.GetEmail(),
+		user.GetPassword(),
+	)
+	if err != nil {
+		return nil, err
 	}
 
-	user.ID = int64(lastInsertId)
 	return user, nil
 }
 
 func (ri *repositoryImpl) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
-	u := model.User{}
-	query := "SELECT id, username, email, password FROM users WHERE email = $1"
-	err := ri.db.QueryRowContext(ctx, query, email).Scan(&u.ID, &u.Username, &u.Email, &u.Password)
+	u := postgresql.User{}
+	query := "SELECT id, name, email, password FROM users WHERE email = $1"
+	err := ri.db.QueryRowContext(ctx, query, email).Scan(&u.Id, &u.Name, &u.Email, &u.Password)
 	if err != nil {
-		return &model.User{}, nil
+		return nil, nil
 	}
 
-	return &u, nil
+	user, err := model.Reconstruct(
+		u.Id,
+		u.Name,
+		u.Email,
+		u.Password,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
