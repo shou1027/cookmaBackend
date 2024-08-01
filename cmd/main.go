@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	server "github.com/shou1027/cookmaBackend/pkg/interfaces/api"
+	"github.com/shou1027/cookmaBackend/pkg/interfaces/api/server"
 )
 
 var addr string

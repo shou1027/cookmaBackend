@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	nameLengthMax = 255
+	nameLengthMax = 20
 	nameLengthMin = 1
 )
 

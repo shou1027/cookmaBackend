@@ -38,7 +38,7 @@ func (uc *useCase) Signup(c context.Context, username string, email string, pass
 		return nil, &myerror.InternalServerError{Err: err}
 	}
 
-	if exsitUser.GetId() != 0 {
+	if exsitUser != nil {
 		return nil, &myerror.BadRequestError{Err: errors.New("user already exists")}
 	}
 
